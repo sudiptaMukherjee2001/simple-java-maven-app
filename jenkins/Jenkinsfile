@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build-maven-app') {
+            steps {
+                echo 'Building...'
+            }
+        }
+        stage('Test-maven-app') {
+            steps {
+                echo 'Testing...'
+            }
+        }
+        stage('Deploy-maven-app') {
+            steps {
+                echo 'Deploying...'
+            }
+        }
+    }
+}
