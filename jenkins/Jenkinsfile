@@ -1,7 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        label ' linux-agent-2 '
+    }  
+
     stages {
-        stage('Build-maven-app') {
+        stage('Build-maven-app-agent-2') {
             steps {
                 echo 'Building...'
             }
