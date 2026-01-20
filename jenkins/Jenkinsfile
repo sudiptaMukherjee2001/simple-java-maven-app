@@ -6,7 +6,9 @@ pipeline {
     stages {
         stage('Build-maven-app-agent-2') {
             steps {
-                echo 'Building...'
+                echo 'Building start...'
+                sh 'mvn clean package'
+                echo 'Building end...'
             }
         }
         stage('Test-maven-app') {
