@@ -2,7 +2,9 @@ pipeline {
     agent {
         label ' linux-agent-2 '
     }  
-
+    tools {
+  maven 'test-maven'
+    }
     stages {
         stage('Build-maven-app-agent-2') {
             steps {
