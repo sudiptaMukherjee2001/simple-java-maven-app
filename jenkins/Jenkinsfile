@@ -1,10 +1,12 @@
 pipeline {
     agent {
-        label ' linux-agent-2 '
-    }  
-    tools {
-  maven 'test-maven'
+        label 'linux-agent-2'
     }
+
+    tools {
+        maven 'test-maven'
+    }
+
     stages {
         stage('Build-maven-app-agent-2') {
             steps {
@@ -12,12 +14,20 @@ pipeline {
                 sh 'mvn clean package'
                 echo 'Building end...'
             }
+            post {
+                success {
+                    echo 'Archiving artifacts'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
+            }
         }
+
         stage('Test-maven-app') {
             steps {
                 echo 'Testing...'
             }
         }
+
         stage('Deploy-maven-app') {
             steps {
                 echo 'Deploying...'
