@@ -6,6 +6,13 @@ pipeline {
     tools {
         maven 'test-maven'
     }
+    environment {
+        Dev_name_Gloabal = "Sudipta Mukherjee"
+    }
+    parameters {
+        string defaultValue: 'SUDIPTA MUKHERJEE', name: 'FIRST_NAME'
+    }
+
 
     stages {
         stage('Build-maven-app-agent-2') {
@@ -13,6 +20,12 @@ pipeline {
                 echo 'Building start...'
                 sh 'mvn clean package'
                 echo 'Building end...'
+                environment {
+                    stage_specific_env = "Stage-Specific-Value_For Build-maven-app"
+                }
+                 echo "This is globally access value--->>>>${env.Dev_name_Gloabal}"
+                echo "${env.stage_specific_env}" 
+                echo "Parameter value is --->>>${params.FIRST_NAME}"
             }
             post {
                 success {
