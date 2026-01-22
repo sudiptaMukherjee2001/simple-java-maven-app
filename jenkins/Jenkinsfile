@@ -14,7 +14,7 @@ pipeline {
     parameters {
     choice(
         name: 'DEPLOY_ENV',
-        choices: ['none', 'linux-agent-1', 'linux-agent-2'],
+        choices: ['none', 'linux-agent-1', 'linux-agent-2','prod'],
         description: 'Select environment to deploy'
     )
 }
@@ -73,6 +73,17 @@ pipeline {
                 echo 'Deployment to DEV completed.'
             }
         }
+        stage('Approve PROD Deployment') {
+        when {
+            expression { params.DEPLOY_ENV == 'prod' }
+        }
+        steps {
+            input message: 'Do you want to deploy to PROD?',
+                ok: 'Deploy to PROD'
+            echo 'Approved for PROD deployment.'
+        }
+}
+
 
     }
 }
