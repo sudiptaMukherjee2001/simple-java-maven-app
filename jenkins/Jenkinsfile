@@ -79,7 +79,7 @@ pipeline {
         }
         steps {
             input message: 'Do you want to deploy to PROD?',
-                ok: 'Deploy to PROD'
+                
             echo 'Approved for PROD deployment.'
         }
 }
