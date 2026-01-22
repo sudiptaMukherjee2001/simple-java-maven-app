@@ -56,10 +56,10 @@ pipeline {
             steps {
                 echo 'Deploying to linux-agent-2 environment...'
                 unstash 'sudipta-app-jar'
-               sh(
-          script: 'pkill -f my-app || true; nohup java -jar target/my-app-1.0-SNAPSHOT.jar --server.port=9090 > app.log 2>&1 &',
-          shell: '/bin/bash'
-        )
+            sh '''
+          pkill -f my-app || true
+          bash -lc "nohup java -jar target/my-app-1.0-SNAPSHOT.jar --server.port=9090 > app.log 2>&1 &"
+        '''
                 echo 'Deployment to DEV completed.'
             }
         }
