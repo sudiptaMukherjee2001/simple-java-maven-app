@@ -77,6 +77,7 @@ pipeline {
         when {
             expression { params.DEPLOY_ENV == 'prod' }
         }
+         agent { label 'prod' }
         steps {
             input message: 'Do you want to deploy to PROD?',
                 
