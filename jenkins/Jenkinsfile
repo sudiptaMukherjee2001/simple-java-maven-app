@@ -58,9 +58,7 @@ pipeline {
                 unstash 'sudipta-app-jar'
                 sh '''
                 pkill -f my-app || true
-                nohup java -jar target/my-app-1.0-SNAPSHOT.jar \
-                --server.port=9090 \
-                > app.log 2>&1 &
+                 nohup java -jar target/my-app-1.0-SNAPSHOT.jar --server.port=9090 > app.log 2>&1 &
                 '''
             }
         }
