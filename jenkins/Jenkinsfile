@@ -1,7 +1,5 @@
 pipeline {
-    // agent {
-    //     label 'linux-agent-2'
-    // }
+    agent none
 
     tools {
         maven 'test-maven'
