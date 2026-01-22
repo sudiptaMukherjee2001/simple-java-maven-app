@@ -80,7 +80,7 @@ pipeline {
          agent { label 'prod' }
         steps {
             input message: 'Do you want to deploy to PROD?',
-                
+            ok: 'Approve Deployment to PROD'
             echo 'Approved for PROD deployment.'
         }
 }
