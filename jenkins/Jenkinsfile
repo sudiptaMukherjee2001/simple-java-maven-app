@@ -1,7 +1,7 @@
 pipeline {
-    agent {
-        label 'linux-agent-2'
-    }
+    // agent {
+    //     label 'linux-agent-2'
+    // }
 
     tools {
         maven 'test-maven'
@@ -19,9 +19,10 @@ pipeline {
              environment {
                     stage_specific_env = "Stage-Specific-Value_For Build-maven-app"
                 }
+            agent { label 'linux-agent-1' }
             steps {
                 echo 'Building start...'
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
                 echo 'Building end...'
                
                  echo "This is globally access value--->>>>${env.Dev_name_Gloabal}"
@@ -37,15 +38,16 @@ pipeline {
         }
 
         stage('Test-maven-app') {
+            agent { label 'linux-agent-2' }
             steps {
                 echo 'Testing...'
             }
         }
 
-        stage('Deploy-maven-app') {
-            steps {
-                echo 'Deploying...'
-            }
-        }
+        // stage('Deploy-maven-app') {
+        //     steps {
+        //         echo 'Deploying...'
+        //     }
+        // }
     }
 }
