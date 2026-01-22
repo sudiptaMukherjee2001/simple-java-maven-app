@@ -29,12 +29,12 @@ pipeline {
                 echo "${env.stage_specific_env}" 
                 echo "Parameter value is --->>>${params.FIRST_NAME}"
             }
-            post {
-                success {
-                    echo 'Archiving artifacts'
-                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                }
-            }
+            // post {
+            //     success {
+            //         echo 'Archiving artifacts'
+            //         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            //     }
+            // }
         }
 
         stage('Test-maven-app') {
