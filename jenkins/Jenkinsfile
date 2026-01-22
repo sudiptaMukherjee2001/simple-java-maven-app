@@ -27,27 +27,26 @@ pipeline {
                 echo "${env.stage_specific_env}" 
                 echo "Parameter value is --->>>${params.FIRST_NAME}"
 
-                
-                stash name: 'sudipta-app-jar', includes: 'target/my-app-1.0-SNAPSHOT.jar'
+
+                // stash name: 'sudipta-app-jar', includes: 'target/my-app-1.0-SNAPSHOT.jar'
             }
            
         }
 
         stage('Test-maven-app') {
-            agent { label 'linux-agent-2' }
+            agent { label 'linux-agent-1' }
             steps {
                 echo 'Testing start...'
                 sh 'mvn test'
 
-                unstash 'sudipta-app-jar'
-                sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
                 echo 'Testing end...'
             }
 
          post {
                 success {
                     echo 'Archiving artifacts'
-                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                    // archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                    stash name: 'sudipta-app-jar', includes: 'target/my-app-1.0-SNAPSHOT.jar'
                 }
             }
         }
