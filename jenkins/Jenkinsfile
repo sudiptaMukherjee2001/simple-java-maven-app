@@ -7,9 +7,17 @@ pipeline {
     environment {
         Dev_name_Gloabal = "Sudipta Mukherjee"
     }
+    // parameters {
+    //     string defaultValue: 'SUDIPTA MUKHERJEE', name: 'FIRST_NAME'
+    // }
+
     parameters {
-        string defaultValue: 'SUDIPTA MUKHERJEE', name: 'FIRST_NAME'
-    }
+    choice(
+        name: 'DEPLOY_ENV',
+        choices: ['none', 'linux-agent-1', 'linux-agent-2'],
+        description: 'Select environment to deploy'
+    )
+}
 
 
     stages {
@@ -23,9 +31,9 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
                 echo 'Building end...'
                
-                 echo "This is globally access value--->>>>${env.Dev_name_Gloabal}"
-                echo "${env.stage_specific_env}" 
-                echo "Parameter value is --->>>${params.FIRST_NAME}"
+                //  echo "This is globally access value--->>>>${env.Dev_name_Gloabal}"
+                // echo "${env.stage_specific_env}" 
+                // echo "Parameter value is --->>>${params.FIRST_NAME}"
 
 
                 // stash name: 'sudipta-app-jar', includes: 'target/my-app-1.0-SNAPSHOT.jar'
@@ -52,13 +60,15 @@ pipeline {
         }
 
         stage('Deploy to DEV') {
+            when {
+        expression { params.DEPLOY_ENV == 'linux-agent-2' }
+        }
             agent { label 'linux-agent-2' }
             steps {
                 echo 'Deploying to linux-agent-2 environment...'
                 unstash 'sudipta-app-jar'
             sh '''
-          pkill -f my-app || true
-          bash -lc "nohup java -jar target/my-app-1.0-SNAPSHOT.jar --server.port=9090 > app.log 2>&1 &"
+           java -jar target/my-app-1.0-SNAPSHOT.jar > deployed-dev.log
         '''
                 echo 'Deployment to DEV completed.'
             }
