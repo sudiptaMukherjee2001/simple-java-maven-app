@@ -26,13 +26,11 @@ pipeline {
                  echo "This is globally access value--->>>>${env.Dev_name_Gloabal}"
                 echo "${env.stage_specific_env}" 
                 echo "Parameter value is --->>>${params.FIRST_NAME}"
+
+                
+                stash name: 'sudipta-app-jar', includes: 'target/my-app-1.0-SNAPSHOT.jar'
             }
-            // post {
-            //     success {
-            //         echo 'Archiving artifacts'
-            //         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            //     }
-            // }
+           
         }
 
         stage('Test-maven-app') {
@@ -41,8 +39,16 @@ pipeline {
                 echo 'Testing start...'
                 sh 'mvn test'
 
-        sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
+                unstash 'sudipta-app-jar'
+                sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
                 echo 'Testing end...'
+            }
+
+         post {
+                success {
+                    echo 'Archiving artifacts'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
             }
         }
 
