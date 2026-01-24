@@ -72,9 +72,9 @@ pipeline {
            java -jar target/my-app-1.0-SNAPSHOT.jar > deployed-dev.log
         '''
                 echo 'Deployment to DEV completed.'
+                echo "changes done on staging-master branch by ${env.Dev_name_Gloabal}"
             }
 
-            echo "changes done on staging-master branch by ${env.Dev_name_Gloabal}"
         }
          stage('Approve PROD') {
             when {
