@@ -95,6 +95,7 @@ pipeline {
                   nohup java -jar target/my-app-1.0-SNAPSHOT.jar \
                   --server.port=9091 > prod.log 2>&1 &
                 '''
+                echo 'Deployment to PROD completed. changes on master branch'
             }
         }
 
