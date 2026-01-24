@@ -89,7 +89,7 @@ pipeline {
             }
             agent { label 'prod' }
             steps {
-                unstash 'app-jar'
+                unstash 'sudipta-app-jar'
                 sh '''
                   pkill -f my-app || true
                   nohup java -jar target/my-app-1.0-SNAPSHOT.jar \
