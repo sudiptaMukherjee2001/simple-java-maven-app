@@ -99,6 +99,9 @@ pipeline {
         }
 
         stage('Verify PROD') {
+             when {
+                branch 'master'
+            }
             agent { label 'prod' }
             steps {
                 sh 'cat prod.log'
