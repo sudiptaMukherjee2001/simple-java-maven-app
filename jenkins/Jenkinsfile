@@ -11,13 +11,13 @@ pipeline {
     //     string defaultValue: 'SUDIPTA MUKHERJEE', name: 'FIRST_NAME'
     // }
 
-    parameters {
-    choice(
-        name: 'DEPLOY_ENV',
-        choices: ['none', 'linux-agent-1', 'linux-agent-2','prod'],
-        description: 'Select environment to deploy'
-    )
-}
+//     parameters {
+//     choice(
+//         name: 'DEPLOY_ENV',
+//         choices: ['none', 'linux-agent-1', 'linux-agent-2','prod'],
+//         description: 'Select environment to deploy'
+//     )
+// }
 
 
     stages {
