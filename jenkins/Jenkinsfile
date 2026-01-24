@@ -61,8 +61,9 @@ pipeline {
 
         stage('Deploy to DEV') {
             when {
-        expression { params.DEPLOY_ENV == 'linux-agent-2' }
-        }
+                branch 'staging-master'
+            }
+
             agent { label 'linux-agent-2' }
             steps {
                 echo 'Deploying to linux-agent-2 environment...'
@@ -73,17 +74,36 @@ pipeline {
                 echo 'Deployment to DEV completed.'
             }
         }
-        stage('Approve PROD Deployment') {
-        when {
-            expression { params.DEPLOY_ENV == 'prod' }
+         stage('Approve PROD') {
+            when {
+                branch 'master'
+            }
+            steps {
+                input message: 'Deploy to PROD?', ok: 'Deploy'
+            }
         }
-         agent { label 'prod' }
-        steps {
-            input message: 'Do you want to deploy to PROD?',
-            ok: 'Approve Deployment to PROD'
-            echo 'Approved for PROD deployment.'
+
+        stage('Deploy PROD') {
+            when {
+                branch 'master'
+            }
+            agent { label 'prod' }
+            steps {
+                unstash 'app-jar'
+                sh '''
+                  pkill -f my-app || true
+                  nohup java -jar target/my-app-1.0-SNAPSHOT.jar \
+                  --server.port=9091 > prod.log 2>&1 &
+                '''
+            }
         }
-}
+
+        stage('Verify PROD') {
+            agent { label 'prod' }
+            steps {
+                sh 'cat prod.log'
+            }
+        }
 
 
     }
