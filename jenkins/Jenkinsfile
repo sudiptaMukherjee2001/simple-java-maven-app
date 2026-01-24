@@ -73,6 +73,8 @@ pipeline {
         '''
                 echo 'Deployment to DEV completed.'
             }
+
+            echo "changes done on staging-master branch by ${env.Dev_name_Gloabal}"
         }
          stage('Approve PROD') {
             when {
